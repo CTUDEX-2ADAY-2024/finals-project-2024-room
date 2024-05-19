@@ -5,47 +5,65 @@
 package com.ctu.roommanagementportal.infrastracture;
 
 //Import statement
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
+
 
 /**
  * Represents a class for validating user input.
  */
 public class InputValidator {
+
+    public static final Set<String> BUILDING_TYPES = new HashSet<>(Arrays.asList(
+            "ADMIN", "ADMIN BUILDING", "COT", "COLLEGE OF TECHNOLOGY", "COE", "COLLEGE OF ENGINEERING"
+    ));
+
+
+    public static final Set<String> ROOM_TYPES = new HashSet<>(Arrays.asList(
+            "1", "CLASSROOM", "2", "COMPUTER LABORATORY", "3", "LIBRARY", "4", "SMARTROOM"
+    ));
+
+
     /**
-     * Validates string input.
+     * Validates non-empty string input without spaces.
      * @param scanner The Scanner object to read user input.
-     * @return The validated string input
+     * @return The validated non-empty string input.
      */
-    public static String validateStringInput(Scanner scanner) {
+    public static String validateNonEmptyStringInput(Scanner scanner) {
         while (true) {
-            String input = scanner.next().trim();
-            if (!input.isEmpty()) {
-                return input;
+            String input = scanner.nextLine().trim();
+            if (input.trim().isEmpty()) {
+                System.out.println("Invalid input. Please enter a non-empty string.");
             } else {
-                System.out.println("Invalid input. Please enter a non-empty string:");
+                return input;
             }
         }
     }
 
     /**
-     * Validates room type input.
+     * Validates string input.
      * @param scanner The Scanner object to read user input.
-     * @return The validated room type input.
+     * @return The validated string input
      */
-    public static int validateRoomTypeInput(Scanner scanner) {
+    public static String validateRoomTypeInput(Scanner scanner) {
         while (true) {
-            if (scanner.hasNextInt()) {
-                int type = scanner.nextInt();
-                if (type >= 1 && type <= 4) {
-                    return type;
-                }
+            // Read the entire line and trim it to remove any leading/trailing spaces
+            String input = scanner.nextLine().trim().toUpperCase();
+
+            // Check if the trimmed input is empty
+            if (input.isEmpty()) {
+                System.out.println("Invalid input. Please enter a valid room type:");
+                continue;
             }
-            System.out.println("Invalid input. Please enter: ");
-            System.out.println("1 for Classroom");
-            System.out.println("2 for Computer Laboratory");
-            System.out.println("3 for Library");
-            System.out.println("4 for Smart room");
-            scanner.next(); // Clear invalid input
+
+            // Validate if the input is in the ROOM_TYPES set
+            if (ROOM_TYPES.contains(input)) {
+                return input; // Return the valid input if it's in the set
+            } else {
+                System.out.println("Invalid input. Please enter a valid room type:");
+            }
         }
     }
 
@@ -56,14 +74,23 @@ public class InputValidator {
      */
     public static int validateIntegerInput(Scanner scanner) {
         while (true) {
-            if (scanner.hasNextInt()) {
-                return scanner.nextInt();
-            } else {
+            String input = scanner.nextLine().trim(); // Read entire line and trim whitespace
+
+            if (input.isEmpty()) { // Check if input is empty after trimming
+                System.out.println("Invalid input. Please enter a non-empty integer:");
+                continue; // Ask for input again
+            }
+
+            try {
+                // Attempt to parse the integer
+                return Integer.parseInt(input);
+            } catch (NumberFormatException e) {
+                // Handle invalid integer input
                 System.out.println("Invalid input. Please enter an integer:");
-                scanner.next(); // Clear invalid input
             }
         }
     }
+
 
     /**
      * Validates boolean input.
@@ -72,13 +99,57 @@ public class InputValidator {
      */
     public static boolean validateBooleanInput(Scanner scanner) {
         while (true) {
-            String input = scanner.next().toLowerCase();
-            if (input.equals("yes")) {
+            String input = scanner.nextLine().trim().toLowerCase(); // Read and normalize input
+
+            if (input.isEmpty()) { // Check if the trimmed input is empty
+                System.out.println("Invalid input. Please enter 'yes' or 'no':");
+            } else if (input.equals("yes")) { // Check for 'yes'
                 return true;
-            } else if (input.equals("no")) {
+            } else if (input.equals("no")) { // Check for 'no'
                 return false;
             } else {
-                System.out.println("Invalid input. Please enter 'yes' or 'no':");
+                System.out.println("Invalid input. Please enter 'yes' or 'no':"); // Handle invalid values
+            }
+        }
+    }
+//    /**
+//     * Validates room number input.
+//     * @param scanner The Scanner object to read user input.
+//     * @return The validated room number.
+//     */
+//    public static int validateRoomNumber(Scanner scanner) {
+//        while (true) {
+//            if (scanner.hasNextInt()) {
+//                int roomNumber = scanner.nextInt();
+//                if (roomNumber > 0) {
+//                    return roomNumber;
+//                } else {
+//                    System.out.println("Invalid room number. It must be a positive integer:");
+//                }
+//            } else {
+//                System.out.println("Invalid input. Please enter a positive integer for room number:");
+//                scanner.next(); // Clear invalid input
+//            }
+//        }
+//    }
+
+    /**
+     * Validates room building name input.
+     * @param scanner The Scanner object to read user input.
+     * @return The validated building name.
+     */
+    public static String validateRoomBuilding(Scanner scanner) {
+        while (true) {
+            String input = scanner.nextLine().trim().toUpperCase();
+            switch (input) {
+                case "A":
+                    return "Admin Building";
+                case "T":
+                    return "College of Technology";
+                case "E":
+                    return "College of Engineering";
+                default:
+                    System.out.print("Invalid input. Please enter A, T, or E: ");
             }
         }
     }
