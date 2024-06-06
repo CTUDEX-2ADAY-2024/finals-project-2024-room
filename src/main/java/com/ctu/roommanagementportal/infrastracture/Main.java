@@ -2,6 +2,7 @@ package com.ctu.roommanagementportal.infrastracture;
 
 import java.util.Scanner;
 import java.sql.SQLException;
+import java.util.InputMismatchException;
 
 public class Main {
     public static void main(String[] args) throws SQLException {
@@ -23,9 +24,8 @@ public class Main {
             System.out.println("| 3. Update an Existing Room Record                  |");
             System.out.println("| 4. Exit the System                                 |");
             System.out.println("|====================================================|");
-            System.out.print("\nPlease enter your choice (1-4): ");
 
-            int choice = InputValidator.validateIntegerInput(scanner);
+            int choice = getUserChoice(scanner);
 
             switch (choice) {
                 case 1:
@@ -44,7 +44,7 @@ public class Main {
                     System.out.println("\n****************************************");
                     System.out.println("           Room Update System            ");
                     System.out.println("****************************************");
-                    updateRoomRecord.execute(); // Execute the operation
+                    updateRoomRecord.execute();// Execute the operation
                     break;
                 case 4:
                     System.out.println("\n************************************************");
@@ -58,12 +58,35 @@ public class Main {
             // Ask if the user wants to perform another action
             continueRunning = askToPerformAnotherAction(scanner);
         }
-        scanner.close();
+//       scanner.close();
+        System.exit(0);
+    }
+
+    private static int getUserChoice(Scanner scanner) {
+        int choice = -1;
+        boolean validChoice = false;
+        while (!validChoice) {
+            System.out.print("\nPlease enter your choice (1-4): ");
+            try {
+                choice = scanner.nextInt();
+                if (choice >= 1 && choice <= 4) {
+                    validChoice = true;
+                } else {
+                    System.out.println("Invalid choice. Please enter a number between 1 and 4.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a number between 1 and 4.");
+                scanner.next(); // clear the invalid input
+            }
+        }
+        return choice;
     }
 
     private static boolean askToPerformAnotherAction(Scanner scanner) {
         System.out.print("\nDo you want to perform another action (CREATE, SEARCH, UPDATE) ? (yes/no): ");
-        String response = scanner.nextLine().trim().toLowerCase();
-        return response.equals("yes") || response.equals("y");
+        return InputValidator.validateBooleanInput(scanner);
     }
+
+
+
 }

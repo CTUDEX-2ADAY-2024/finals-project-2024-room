@@ -17,7 +17,7 @@ import java.util.*;
  */
 public class InputValidator {
 
-    private static final Set<String> ROOM_TYPES = new HashSet<>(Arrays.asList("CLASSROOM", "LABORATORY", "LIBRARY", "SMART ROOM"));
+    private static final Set<String> ROOM_TYPES = new HashSet<>(Arrays.asList("CLASSROOM", "COMPUTER LABORATORY", "LIBRARY", "SMART ROOM"));
     private static final Map<String, String> NUMBER_TO_ROOM_TYPE = new HashMap<>();
 
     static {
@@ -99,7 +99,7 @@ public class InputValidator {
      */
     public static boolean validateBooleanInput(Scanner scanner) {
         while (true) {
-            String input = scanner.nextLine().trim().toUpperCase(); // Read and normalize input
+            String input = scanner.next().trim().toUpperCase(); // Read and normalize input
 
             if (input.isEmpty()) { // Check if the trimmed input is empty
                 System.out.print("Invalid input. Please enter 'yes' or 'no': ");

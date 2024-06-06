@@ -14,7 +14,7 @@ public class AdminLogin {
         initializeAdminCredentials();
 
         // Create new admin credentials (uncomment the line below to use this functionality)
-        createAdminCredentials();
+         //createAdminCredentials();
     }
 
     private static void initializeAdminCredentials() {

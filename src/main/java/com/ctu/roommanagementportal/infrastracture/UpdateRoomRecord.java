@@ -6,11 +6,12 @@ import com.ctu.roommanagementportal.model.RoomType;
 import com.ctu.roommanagementportal.dbservices.InsertRecords;
 import static com.ctu.roommanagementportal.infrastracture.AdminLogin.isAdmin;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class UpdateRoomRecord {
 
-    public boolean execute() {
+    public boolean execute() throws SQLException {
         Scanner scanner = new Scanner(System.in);
         InsertRecords insertRecords = new InsertRecords();
 
@@ -55,9 +56,11 @@ public class UpdateRoomRecord {
         } else {
             System.out.println("Only admins are allowed to update the system.");
         }
-        scanner.close();
-        System.out.println("Exiting the program. Goodbye!");
+//        scanner.close();
+
+        System.out.println("    THANK YOU FOR USING THE ROOM UPDATE SYSTEM!!");
         return false;
+
     }
 
     // Method to display room information
